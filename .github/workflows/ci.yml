@@ -22,7 +22,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: ./.github/actions/setup
+      # `$/` (zizmor self-repository) is not yet understood by actionlint 1.7.12.
+      - uses: ./.github/actions/setup # zizmor: ignore[self-repository]
       - run: task ci
         # `gh attestation verify` checks release demos' provenance with it.
         env:
