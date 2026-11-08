@@ -660,7 +660,7 @@ export const MENTIONS: Mention[] = [
 		crate: 'loremaster',
 		repo: 'sunsided/loremaster',
 		tagline:
-			'A world editor for text adventures on dramaturge, where every text comes from the world state and you see when it shows and why.',
+			'A runtime for interactive fiction and graphical adventures on dramaturge, with live editing and playtesting: every text comes from the world state, and you see when it shows and why.',
 		try: 'https://sunsided.github.io/loremaster/'
 	}
 ];
