@@ -1,11 +1,12 @@
-<!--
-	Registry prose: plain text where `backticks` mark code. Split here rather than rendered as
-	HTML, so the registry never needs escaping and can never inject markup.
--->
+<!-- Registry prose with `code` and [links](https://…); see #lib/richtext.ts. -->
 <script lang="ts">
+	import { parse } from '#lib/richtext.js';
+
 	let { text }: { text: string } = $props();
 
-	const parts = $derived(text.split('`'));
+	const parts = $derived(parse(text));
 </script>
 
-{#each parts as part, i (i)}{#if i % 2}<code>{part}</code>{:else}{part}{/if}{/each}
+{#each parts as part, i (i)}{#if part.kind === 'code'}<code>{part.value}</code
+		>{:else if part.kind === 'link'}<a href={part.href}>{part.value}</a
+		>{:else}{part.value}{/if}{/each}

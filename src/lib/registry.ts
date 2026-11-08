@@ -597,7 +597,7 @@ export const DEMOS: Demo[] = [
 		project: 'game-toolkit',
 		title: 'Rust Racer',
 		blurb:
-			'An OutRun-style pseudo-3D racer, a port of Jake Gordon’s javascript-racer onto the toolkit, with the simulation running in a sillyecs world: traffic, collisions, lap times and parallax as systems.',
+			'An OutRun-style pseudo-3D racer, a port of Jake Gordon’s javascript-racer onto the toolkit, with the simulation running in a [sillyecs](https://github.com/sunsided/sillyecs) world: traffic, collisions, lap times and parallax as systems.',
 		release: {
 			repo: 'sunsided/rust-racer',
 			tag: 'v0.3.1',
