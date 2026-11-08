@@ -593,6 +593,32 @@ export const DEMOS: Demo[] = [
 		]
 	},
 	{
+		slug: 'rust-racer',
+		project: 'game-toolkit',
+		title: 'Rust Racer',
+		blurb:
+			'An OutRun-style pseudo-3D racer, a port of Jake Gordon’s javascript-racer onto the toolkit, with the simulation running in a sillyecs world: traffic, collisions, lap times and parallax as systems.',
+		release: {
+			repo: 'sunsided/rust-racer',
+			tag: 'v0.3.1',
+			asset: 'rust-racer-v0.3.1-web.zip',
+			sha256: '4ac357e82ab96648db0f9e694c39a27b1e55f1e5451317325d288fe0a45aff54',
+			module: 'rust-racer.js'
+		},
+		canvas: 'game',
+		size: [4, 3],
+		poster: {
+			path: 'docs/screenshot.png',
+			sha256: '9dfe8df752f34037d8247534c3a891de22336191e62e27bb1da0b9c4fbfb2872',
+			alt: 'Driving through a curve past billboards, with traffic ahead'
+		},
+		controls: [
+			['Arrows / WASD', 'drive'],
+			['Gamepad', 'supported'],
+			['M', 'music on/off']
+		]
+	},
+	{
 		slug: 'hello-web',
 		project: 'game-toolkit',
 		title: 'Hello, web',
