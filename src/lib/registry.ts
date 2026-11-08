@@ -566,6 +566,33 @@ export const DEMOS: Demo[] = [
 		featured: true
 	},
 	{
+		slug: 'elite-galaxies',
+		project: 'game-toolkit',
+		title: 'Elite galaxies',
+		blurb:
+			'The galaxy generator of Elite (1984) rebuilt in Rust, faithful to the 6502 original: eight galaxies of 256 systems from three 16-bit seeds, flown through in a 320×200 explorer drawn on the CPU.',
+		release: {
+			repo: 'sunsided/elite-galaxies',
+			tag: 'v0.1.0',
+			asset: 'elite-explorer-v0.1.0-web.zip',
+			sha256: 'b4b0949c5696e7391637108d19a6e6cca4ea5f2b9a579ea48fbdcc90606da928',
+			module: 'explorer.js'
+		},
+		size: [16, 10],
+		native: [320, 200],
+		poster: {
+			path: 'docs/screenshot.png',
+			sha256: 'c08d433e059fd1205997d1281e2416ec43a1d52b4e7a438def06f18b56e1f127',
+			alt: 'Lave in the explorer: a green and blue planet with ice caps, and its data sheet: Rich Agricultural, Dictatorship, Human Colonials, famous for its vast rain forests and the Lavian tree grub.'
+		},
+		controls: [
+			['← →', 'previous / next system'],
+			['↑ ↓', 'galactic hyperdrive'],
+			['Tab', 'galactic chart'],
+			['Space', 'pause rotation']
+		]
+	},
+	{
 		slug: 'hello-web',
 		project: 'game-toolkit',
 		title: 'Hello, web',
