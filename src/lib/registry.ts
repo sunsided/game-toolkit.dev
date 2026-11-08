@@ -631,6 +631,40 @@ export const DEMOS: Demo[] = [
 	}
 ];
 
+/**
+ * Related crates by the same author, outside the toolkit: a line each on the home page, with
+ * GitHub and crates.io links. No pages, pins or demos; `try` links a version to use online.
+ */
+export interface Mention {
+	/** The crate's name on crates.io. */
+	crate: string;
+	repo: string;
+	tagline: string;
+	try?: string;
+}
+
+export const MENTIONS: Mention[] = [
+	{
+		crate: 'sillyecs',
+		repo: 'sunsided/sillyecs',
+		tagline:
+			'A zero-overhead archetype ECS, generated and scheduled at compile time from a YAML schema. The toolkit’s `ecs` feature builds on it.'
+	},
+	{
+		crate: 'dramaturge',
+		repo: 'sunsided/dramaturge',
+		tagline:
+			'Branching dialogue, character memory and narrative state, as pure data for any engine: facts, conditions, memories and consequences.'
+	},
+	{
+		crate: 'loremaster',
+		repo: 'sunsided/loremaster',
+		tagline:
+			'A world editor for text adventures on dramaturge, where every text comes from the world state and you see when it shows and why.',
+		try: 'https://sunsided.github.io/loremaster/'
+	}
+];
+
 // --- Lookups and invariants -----------------------------------------------------------------
 
 const SLUG = /^[a-z0-9][a-z0-9-]*$/;
@@ -678,6 +712,11 @@ export function problems(): string[] {
 			if (!COMMIT.test(p.pin.commit)) out.push(`${p.slug}: commit "${p.pin.commit}"`);
 		}
 		for (const m of p.gallery ?? []) if (!PATH.test(m.path)) out.push(`${p.slug}: ${m.path}`);
+	}
+	for (const m of MENTIONS) {
+		if (!NAME.test(m.crate)) out.push(`mention "${m.crate}"`);
+		if (!REPO.test(m.repo)) out.push(`${m.crate}: repo "${m.repo}"`);
+		if (m.try && !m.try.startsWith('https://')) out.push(`${m.crate}: try "${m.try}"`);
 	}
 	const demos = new Set<string>();
 	for (const d of DEMOS) {

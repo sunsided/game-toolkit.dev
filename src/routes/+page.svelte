@@ -9,6 +9,7 @@
 	import DemoGrid from '#lib/components/organisms/DemoGrid.svelte';
 	import DemoPlayer from '#lib/components/organisms/DemoPlayer.svelte';
 	import FeatureGrid from '#lib/components/organisms/FeatureGrid.svelte';
+	import Mentions from '#lib/components/organisms/Mentions.svelte';
 	import Section from '#lib/components/organisms/Section.svelte';
 	import RichText from '#lib/components/atoms/RichText.svelte';
 	import { project } from '#lib/registry.js';
@@ -99,6 +100,13 @@
 	{/snippet}
 	<DemoGrid demos={data.featured} showProject />
 	<p><Button href={resolve('/play')}>All demos →</Button></p>
+</Section>
+
+<Section id="mentions" label="05 · Also" title="Honorable mentions.">
+	{#snippet intro()}
+		<p>Not part of the toolkit, from the same workshop, and useful in a game.</p>
+	{/snippet}
+	<Mentions />
 </Section>
 
 <style>
