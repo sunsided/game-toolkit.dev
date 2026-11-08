@@ -4,7 +4,12 @@
 	text the button copies.
 -->
 <script lang="ts">
-	let { html, code, title }: { html: string; code: string; title?: string } = $props();
+	let {
+		html,
+		code,
+		title,
+		maxHeight
+	}: { html: string; code: string; title?: string; maxHeight?: string } = $props();
 
 	let copied = $state(false);
 	let timer: ReturnType<typeof setTimeout> | undefined;
@@ -28,7 +33,7 @@
 			{copied ? 'Copied' : 'Copy'}
 		</button>
 	</figcaption>
-	<div class="body">{@html html}</div>
+	<div class="body" style:--max-height={maxHeight}>{@html html}</div>
 </figure>
 
 <style>
@@ -72,6 +77,7 @@
 		color: var(--color-text-strong);
 	}
 	.body :global(pre) {
+		max-block-size: var(--max-height, none);
 		margin: 0;
 		padding: var(--space-4) var(--space-5);
 		overflow-x: auto;

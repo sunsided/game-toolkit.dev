@@ -81,6 +81,14 @@ export interface Demo {
 	/** Click-to-run poster, from the repository; without one the frame shows the title. */
 	poster?: Media;
 	controls?: [keys: string, action: string][];
+	/**
+	 * Source files shown on the demo's guide page (/play/<slug>/), read from the pinned
+	 * checkout at build time, so the guide is always the code that was built. Build demos
+	 * only; a release demo is a whole game and links its repository instead.
+	 */
+	code?: string[];
+	/** Said above the code when it is not the demo's own (the platformer's test bench). */
+	codeNote?: string;
 	/** Launch options, set as `data-*` attributes on the canvas (`{ cracktro: true }`). */
 	options?: Record<string, string | boolean>;
 	/** On the home page's demo strip. */
@@ -164,6 +172,10 @@ fn main() -> Result<()> {
 			{
 				title: 'Jam templates',
 				text: '`cargo generate` a 2D or 3D starter with assets, a web build and an agent guide to the whole API already in place.'
+			},
+			{
+				title: 'GPU compute',
+				text: 'WGSL kernels over a grid, ping-pong storage buffers, a readback ring that never blocks, storage textures you draw like sprites, and a submitter that keeps simulations off the frame. Behind the `compute` feature.'
 			},
 			{
 				title: 'Post and palettes',
@@ -396,6 +408,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'Mode 13h raster bars: every scanline rewrites one DAC entry while the beam passes, under a sine scroller.',
 		build: { package: 'game-toolkit-dosvideo', example: 'copper_bars' },
+		code: ['crates/dosvideo/examples/copper_bars.rs'],
 		size: [4, 3],
 		poster: {
 			path: 'docs/copper_bars.jpg',
@@ -409,6 +422,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'Water, ripples and sun glow move without touching a pixel: the picture holds indices, the DAC rotates.',
 		build: { package: 'game-toolkit-dosvideo', example: 'palette_cycling' },
+		code: ['crates/dosvideo/examples/palette_cycling.rs'],
 		size: [4, 3],
 		poster: {
 			path: 'docs/palette_cycling.png',
@@ -422,6 +436,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'320×240, a virtual screen wider than the display, a split-screen status bar and page-flipped sprites.',
 		build: { package: 'game-toolkit-dosvideo', example: 'modex_scroll' },
+		code: ['crates/dosvideo/examples/modex_scroll.rs'],
 		size: [4, 3],
 		poster: {
 			path: 'docs/modex_scroll.png',
@@ -435,6 +450,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'A full-frame copy on a 16-bit ISA bus, overtaken by the beam: why DOS games tore, and what fixed it.',
 		build: { package: 'game-toolkit-dosvideo', example: 'tearing_lab' },
+		code: ['crates/dosvideo/examples/tearing_lab.rs'],
 		size: [4, 3],
 		poster: {
 			path: 'docs/tearing_lab.png',
@@ -447,6 +463,7 @@ export const DEMOS: Demo[] = [
 		title: 'EGA scroller',
 		blurb: 'Smooth scrolling in 16 colours with pel panning and latch tile copies.',
 		build: { package: 'game-toolkit-dosvideo', example: 'ega_scroller' },
+		code: ['crates/dosvideo/examples/ega_scroller.rs'],
 		size: [4, 3],
 		poster: { path: 'docs/ega_scroller.jpg', alt: 'A side-scroller level in 16 EGA colours' }
 	},
@@ -456,6 +473,7 @@ export const DEMOS: Demo[] = [
 		title: 'Hercules',
 		blurb: '720×348 monochrome: drawn on the hidden page, flipped in vertical retrace.',
 		build: { package: 'game-toolkit-dosvideo', example: 'hercules' },
+		code: ['crates/dosvideo/examples/hercules.rs'],
 		size: [4, 3],
 		poster: { path: 'docs/hercules.jpg', alt: 'Rotating wireframes on a Hercules card' }
 	},
@@ -465,6 +483,7 @@ export const DEMOS: Demo[] = [
 		title: 'PC speaker',
 		blurb: 'A text-mode piano, tracker music on one square wave and PWM samples.',
 		build: { package: 'game-toolkit-dosvideo', example: 'pc_speaker', features: ['synth'] },
+		code: ['crates/dosvideo/examples/pc_speaker.rs'],
 		size: [4, 3],
 		poster: { path: 'docs/pc_speaker.png', alt: 'A text-mode piano and pitch history' },
 		controls: [
@@ -479,6 +498,9 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'The test bench: the Cheesed heroine in a moonlit level, every move and every preset, with a debug overlay.',
 		build: { package: 'platformer-demo', bin: 'platformer-demo' },
+		code: ['examples/minimal.rs'],
+		codeNote:
+			'The demo is the crate’s full test bench. This is `examples/minimal.rs`: the same controller, a playable character, in one file.',
 		canvas: 'animation',
 		native: [384, 216],
 		size: [16, 9],
@@ -550,6 +572,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'The same code natively and in the browser: a sprite, text, a sound on click, looping synth music and the first gamepad.',
 		build: { package: 'ex_13_web', bin: '13_web' },
+		code: ['examples/13_web/src/main.rs'],
 		assets: 'examples/13_web/assets',
 		canvas: 'game',
 		size: [16, 9],
@@ -566,6 +589,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'Three depth-tested cubes under a perspective camera, a 2D HUD drawn into the same frame.',
 		build: { package: 'ex_07_3d', bin: '07_3d' },
+		code: ['examples/07_3d/src/main.rs'],
 		size: [3, 2]
 	},
 	{
@@ -575,8 +599,24 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'Everything drawn with palette indices on a 160×120 canvas; a waterfall cycles and day crossfades into night.',
 		build: { package: 'ex_19_palette', bin: '19_palette' },
+		code: ['examples/19_palette/src/main.rs'],
 		size: [4, 3],
 		controls: [['Space', 'day ↔ night']]
+	},
+	{
+		slug: 'life',
+		project: 'game-toolkit',
+		title: 'Game of Life on the GPU',
+		blurb:
+			'A compute kernel steps the grid in ping-pong buffers and paints a storage texture; a readback ring counts the cells without ever waiting. Needs WebGPU: on WebGL2 it says so.',
+		build: { package: 'ex_16_compute', bin: '16_compute' },
+		code: ['examples/16_compute/src/main.rs', 'examples/16_compute/src/life.wgsl'],
+		size: [16, 10],
+		controls: [
+			['Mouse', 'draw cells'],
+			['R / C', 'reseed / clear'],
+			['Space', 'pause']
+		]
 	},
 	{
 		slug: 'touch',
@@ -585,6 +625,7 @@ export const DEMOS: Demo[] = [
 		blurb:
 			'Every finger as a ring with a line back to where it went down. Try it on a phone; the mouse works too.',
 		build: { package: 'ex_15_touch', bin: '15_touch' },
+		code: ['examples/15_touch/src/main.rs'],
 		canvas: 'game',
 		size: [16, 9]
 	}
@@ -659,6 +700,8 @@ export function problems(): string[] {
 		}
 		for (const n of [pkg, bin, example, ...features])
 			if (n !== undefined && !NAME.test(n)) out.push(`${d.slug}: name "${n}"`);
+		if (d.code && !d.build) out.push(`${d.slug}: code needs a build demo`);
+		for (const path of d.code ?? []) if (!PATH.test(path)) out.push(`${d.slug}: code "${path}"`);
 		for (const [k, v] of Object.entries(d.options ?? {}))
 			if (!/^[a-z][a-z0-9-]*$/.test(k) || (typeof v === 'string' && !/^[\w .,-]*$/.test(v)))
 				out.push(`${d.slug}: option "${k}"`);
@@ -682,6 +725,26 @@ export function mediaPath(projectSlug: string, path: string) {
 export function posterPath(d: Demo): string | undefined {
 	if (!d.poster) return undefined;
 	return mediaPath(d.release ? d.slug : d.project, d.poster.path);
+}
+
+/** The folder below .cache/src/ a project's pinned commit is checked out into. */
+export function checkoutName(p: Project & { pin: Pin }) {
+	return `${p.slug}-${p.pin.commit}`;
+}
+
+/** How to run a build demo yourself, from a checkout of its repository. */
+export function runCommand(d: Demo): string | undefined {
+	if (!d.build) return undefined;
+	const { package: pkg, bin, example, features = [] } = d.build;
+	return [
+		'cargo run --release',
+		`-p ${pkg}`,
+		bin && `--bin ${bin}`,
+		example && `--example ${example}`,
+		features.length && `--features ${features.join(',')}`
+	]
+		.filter(Boolean)
+		.join(' ');
 }
 
 /** The repository a demo is built from, at the release it is pinned to. */

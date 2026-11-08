@@ -36,6 +36,7 @@ import { basename, join } from 'node:path';
 import {
 	DEMOS,
 	PROJECTS,
+	checkoutName,
 	demoFiles,
 	mediaPath,
 	posterPath,
@@ -71,7 +72,7 @@ function capture(cmd: string, args: string[], cwd?: string) {
 
 /** The pinned commit, checked out once into .cache/src/ and verified to be that commit. */
 function checkout(p: Project & { pin: Pin }): string {
-	const dir = join(CACHE, 'src', `${p.slug}-${p.pin.commit}`);
+	const dir = join(CACHE, 'src', checkoutName(p));
 	if (!existsSync(join(dir, '.git'))) {
 		console.log(`checkout ${p.repo} ${p.pin.tag} (${p.pin.commit.slice(0, 12)})`);
 		rmSync(dir, { recursive: true, force: true });

@@ -6,6 +6,7 @@
 	removes all of it. The page posts `running` or `error` back; see scripts/demos.ts.
 -->
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { generated } from '#lib/static.js';
 	import { size } from '#lib/format.js';
 	import { player } from '#lib/player.svelte.js';
@@ -22,7 +23,8 @@
 		headingLevel = 3,
 		showProject = false,
 		aspect = demo.size,
-		showSource = false
+		showSource = false,
+		linkGuide = true
 	}: {
 		demo: DemoInfo;
 		project: Project;
@@ -32,6 +34,8 @@
 		aspect?: [number, number];
 		/** Link the repository the demo is built from. */
 		showSource?: boolean;
+		/** Link the guide page, where the demo has one (not on the guide itself). */
+		linkGuide?: boolean;
 	} = $props();
 
 	let phase = $state<'loading' | 'running' | 'error'>('loading');
@@ -146,6 +150,11 @@
 			<p class="blurb"><RichText text={demo.blurb} /></p>
 			{#if phase === 'error' && active}
 				<p class="error" role="alert">{message}</p>
+			{/if}
+			{#if linkGuide && demo.code?.length}
+				<a class="guide" href={resolve('/play/[demo]', { demo: demo.slug })}
+					>How it’s made: the whole program →</a
+				>
 			{/if}
 			{#if showSource && source(demo)}
 				{@const src = source(demo)!}
@@ -313,6 +322,16 @@
 	.error {
 		color: var(--color-danger);
 		font-size: var(--step--1);
+	}
+	.guide {
+		justify-self: start;
+		color: var(--accent);
+		font-size: var(--step--1);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.guide:hover {
+		text-decoration: underline;
 	}
 	.source {
 		display: inline-flex;

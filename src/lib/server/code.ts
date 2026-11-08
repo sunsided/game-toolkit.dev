@@ -4,9 +4,9 @@
 import { createCssVariablesTheme, createHighlighter } from 'shiki';
 
 const theme = createCssVariablesTheme({ name: 'tokens', variablePrefix: '--shiki-' });
-const highlighter = createHighlighter({ themes: [theme], langs: ['rust', 'toml', 'sh'] });
+const highlighter = createHighlighter({ themes: [theme], langs: ['rust', 'toml', 'sh', 'wgsl'] });
 
-export type Lang = 'rust' | 'toml' | 'sh';
+export type Lang = 'rust' | 'toml' | 'sh' | 'wgsl';
 
 /** `code` as highlighted HTML: a `<pre class="shiki">`, safe to `{@html}` (Shiki escapes). */
 export async function highlight(code: string, lang: Lang): Promise<string> {

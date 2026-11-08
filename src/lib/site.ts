@@ -9,6 +9,7 @@ export const LINKS = {
 	games: 'https://games.markusmayer.dev/',
 	github: 'https://github.com/sunsided/game-toolkit',
 	guide: 'https://docs.rs/game-toolkit/latest/game_toolkit/guide/',
+	web: 'https://github.com/sunsided/game-toolkit#web-wasm32',
 	privacy: 'https://markusmayer.dev/privacy/',
 	imprint: 'https://markusmayer.dev/imprint/'
 } as const;
