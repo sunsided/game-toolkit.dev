@@ -1,0 +1,29 @@
+name: CI
+
+# `task ci` on pull requests: lint, type check, registry tests, and the full build with every
+# demo. Pushes to main are checked by deploy.yml, which runs the same before publishing.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - run: task ci
+        # `gh attestation verify` checks release demos' provenance with it.
+        env:
+          GH_TOKEN: ${{ github.token }}

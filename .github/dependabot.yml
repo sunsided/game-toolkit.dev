@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories: ['/', '/.github/actions/setup']
+    schedule:
+      interval: weekly
+    # Let a release age a week before adopting it (yanked or compromised versions).
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ['*']
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Let a release age a week before adopting it (yanked or compromised versions).
+    cooldown:
+      default-days: 7
+    groups:
+      dependencies:
+        patterns: ['*']

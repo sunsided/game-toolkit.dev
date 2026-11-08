@@ -1,0 +1,126 @@
+/*
+	Design tokens, in two layers:
+
+	  primitives   raw values, named for what they are (--ink-900, --lime-400)
+	  semantic     what a value is for (--color-bg, --color-accent); components use only these
+
+	Each crate has a colour (the registry's `accent`). A component that belongs to a crate
+	sets `--accent` inline from it, and everything that says "this crate" reads `--accent`:
+	card edges, the demo frame's light, a page's highlights. Without it, it is game-toolkit's
+	lime.
+
+	The look: a workbench at night. Ink-dark surfaces on a faint dot grid, crisp hairlines,
+	one bright signal colour at a time, monospace for anything a machine would print.
+*/
+
+:root {
+	/* --- Primitives: neutrals (ink, slightly blue) ------------------------------ */
+	--ink-950: #07080c;
+	--ink-900: #0c0e14;
+	--ink-850: #11141c;
+	--ink-800: #171b25;
+	--ink-700: #222736;
+	--ink-600: #2f3548;
+	--ink-400: #5d6580;
+	--ink-300: #8a91a8;
+	--ink-200: #b8bdcc;
+	--ink-100: #e4e6ee;
+	--ink-50: #f5f6fa;
+
+	/* --- Primitives: signal colours, one per crate ------------------------------ */
+	--lime-400: #c6f24e;
+	--lime-300: #d8f78a;
+	--lime-ink: #1a2300;
+	--magenta-400: #ff4fd8;
+	--orange-400: #ffa53d;
+	--yellow-400: #ffd23f;
+	--teal-400: #4fd1c5;
+	--red-400: #ff6b6b;
+
+	/* --- Semantic: colour ------------------------------------------------------- */
+	--color-bg: var(--ink-900);
+	--color-bg-deep: var(--ink-950);
+	--color-surface: var(--ink-850);
+	--color-surface-raised: var(--ink-800);
+	--color-line: color-mix(in oklab, var(--ink-300) 18%, transparent);
+	--color-line-strong: color-mix(in oklab, var(--ink-300) 34%, transparent);
+	--color-text: var(--ink-100);
+	--color-text-strong: var(--ink-50);
+	--color-text-muted: var(--ink-300);
+	--color-text-faint: var(--ink-400);
+	--color-accent: var(--lime-400);
+	--color-accent-hover: var(--lime-300);
+	--color-accent-ink: var(--lime-ink);
+	--color-focus: var(--lime-300);
+	--color-danger: var(--red-400);
+	--accent: var(--color-accent);
+	/* The accent at low strength, for washes and glows behind accented things. */
+	--accent-wash: color-mix(in oklab, var(--accent) 14%, transparent);
+	--accent-glow: color-mix(in oklab, var(--accent) 40%, transparent);
+
+	/* Code: Shiki's css-variables theme reads these. */
+	--shiki-foreground: var(--ink-100);
+	--shiki-background: transparent;
+	--shiki-token-keyword: #ff7ab8;
+	--shiki-token-function: #8fd3ff;
+	--shiki-token-string: #c6f24e;
+	--shiki-token-string-expression: #c6f24e;
+	--shiki-token-constant: #ffb86b;
+	--shiki-token-parameter: var(--ink-100);
+	--shiki-token-comment: var(--ink-400);
+	--shiki-token-punctuation: var(--ink-300);
+	--shiki-token-link: #8fd3ff;
+
+	/* --- Semantic: type --------------------------------------------------------- */
+	--font-sans: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+	/* Bricolage's width axis: condensed-wide for display, normal for reading. */
+	--wdth-display: 92%;
+	--wdth-text: 100%;
+
+	--step--2: 0.75rem;
+	--step--1: 0.875rem;
+	--step-0: 1.0625rem;
+	--step-1: 1.25rem;
+	--step-2: 1.5rem;
+	--step-3: clamp(1.75rem, 1.3rem + 1.8vw, 2.25rem);
+	--step-4: clamp(2.25rem, 1.3rem + 3.8vw, 3.5rem);
+	--step-5: clamp(2.75rem, 1.2rem + 6vw, 5rem);
+
+	--leading-tight: 1.02;
+	--leading-snug: 1.25;
+	--leading-text: 1.6;
+	--measure: 64ch;
+	--tracking-label: 0.08em;
+
+	/* --- Semantic: space, shape, depth ------------------------------------------ */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4.5rem;
+	--space-9: 7rem;
+	--gutter: clamp(1rem, 4vw, 3rem);
+	--page-max: 74rem;
+
+	--radius-s: 0.375rem;
+	--radius-m: 0.625rem;
+	--radius-l: 1rem;
+	--radius-pill: 999px;
+
+	--shadow-raised:
+		0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1.25rem 2.5rem -1.25rem rgb(0 0 0 / 0.7);
+	--shadow-screen:
+		0 0 0 1px var(--color-line-strong), 0 2rem 4rem -1.5rem rgb(0 0 0 / 0.8),
+		0 0 5rem -1rem var(--accent-glow);
+
+	/* --- Semantic: motion ------------------------------------------------------- */
+	--ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--ease-snap: cubic-bezier(0.3, 1.4, 0.5, 1);
+	--dur-fast: 140ms;
+	--dur-mid: 260ms;
+}

@@ -1,0 +1,51 @@
+name: Set up the toolchain
+description: >-
+  Node from .nvmrc, Task, Yarn 4 through Corepack, installed dependencies; Rust with the wasm
+  target, and the cached checkouts, demo builds and wasm-bindgen CLIs.
+
+runs:
+  using: composite
+  steps:
+    # package-manager-cache off: it would call the runner's Yarn 1 before Corepack is on.
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version-file: .nvmrc
+        package-manager-cache: false
+
+    - uses: arduino/setup-task@c0bc642852239c2689f73f4ea6459c29405f3c52 # v3.0.0
+      with:
+        version: 3.x
+        repo-token: ${{ github.token }}
+
+    - run: corepack enable
+      shell: bash
+
+    - name: Cache Yarn downloads
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.yarn/berry/cache
+        key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: yarn-${{ runner.os }}-
+
+    - run: yarn install --immutable
+      shell: bash
+
+    - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
+      with:
+        toolchain: stable
+        targets: wasm32-unknown-unknown
+
+    # Finished demo builds are keyed by pin and build settings inside .cache/demos/, so an
+    # older cache still serves every demo whose pin did not move. Cargo's target dirs stay
+    # out (gigabytes); a moved pin rebuilds that repository from the crates.io cache.
+    - name: Cache checkouts, demos and tools
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: |
+          .cache/src
+          .cache/demos
+          .cache/tools
+          ~/.cargo/registry/index
+          ~/.cargo/registry/cache
+        key: demos-${{ hashFiles('src/lib/registry.ts', 'scripts/demos.ts') }}
+        restore-keys: demos-

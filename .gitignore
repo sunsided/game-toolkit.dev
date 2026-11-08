@@ -1,0 +1,19 @@
+node_modules
+.yarn/install-state.gz
+.task
+
+# Output
+/.svelte-kit
+/build
+
+# Pinned checkouts, cargo target dirs and built demos (`task demos`).
+/.cache/
+# Copied out of .cache by `task sources` / `task demos`.
+/static/demos/
+/static/media/
+
+.DS_Store
+.env
+.env.*
+vite.config.ts.timestamp-*
+.playwright-mcp

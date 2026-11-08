@@ -1,0 +1,8 @@
+.svelte-kit
+build
+node_modules
+yarn.lock
+static/demos
+static/media
+.cache
+.yarn

@@ -1,0 +1,99 @@
+version: '3'
+
+vars:
+  RUN: yarn
+
+tasks:
+  default:
+    cmds:
+      - task --list --sort=none
+    silent: true
+
+  install:
+    desc: Install dependencies
+    run: once
+    sources: [package.json, yarn.lock, .yarnrc.yml, .nvmrc]
+    generates: [node_modules/.yarn-state.yml]
+    preconditions:
+      - sh: command -v yarn
+        msg: 'yarn not found — install Node 26 (see .nvmrc) and run: corepack enable'
+    cmds:
+      - '{{.RUN}} install {{.CLI_ARGS}}'
+
+  sources:
+    desc: Check out the pinned crates and copy their images into static/media/ (fast)
+    run: once
+    deps: [install]
+    cmds:
+      - node scripts/demos.ts --sources-only
+
+  demos:
+    desc: Build every demo for the browser into static/demos/ (slow the first time; cached by commit)
+    run: once
+    deps: [install]
+    preconditions:
+      - sh: command -v cargo
+        msg: 'cargo not found — install Rust (rustup.rs)'
+      - sh: rustup target list --installed | grep -qx wasm32-unknown-unknown
+        msg: 'wasm target missing — run: rustup target add wasm32-unknown-unknown'
+    cmds:
+      - node scripts/demos.ts
+
+  dev:
+    desc: Dev server with hot reload (demos only if `task demos` has run)
+    deps: [install, sources]
+    cmds:
+      - '{{.RUN}} dev {{.CLI_ARGS}}'
+
+  build:
+    desc: Prerender the static site into build/, every demo included
+    run: once
+    deps: [install, demos]
+    env:
+      # A page whose demo is missing fails the build instead of shipping a dead Run button.
+      REQUIRE_DEMOS: '1'
+    cmds:
+      - '{{.RUN}} build'
+
+  preview:
+    desc: Serve build/ locally
+    deps: [build]
+    cmds:
+      - '{{.RUN}} preview {{.CLI_ARGS}}'
+
+  lint:
+    desc: Prettier check
+    deps: [install]
+    cmds:
+      - '{{.RUN}} lint'
+
+  check:
+    desc: Type check
+    deps: [install]
+    cmds:
+      - '{{.RUN}} check'
+
+  test:
+    desc: Registry tests
+    deps: [install]
+    cmds:
+      - '{{.RUN}} test'
+
+  lint:actions:
+    desc: Lint the GitHub workflows (actionlint, zizmor)
+    preconditions:
+      - sh: command -v actionlint
+        msg: 'actionlint not found — https://github.com/rhysd/actionlint'
+      - sh: command -v zizmor
+        msg: 'zizmor not found — https://docs.zizmor.sh'
+    cmds:
+      - actionlint
+      - zizmor --format plain .github
+
+  ci:
+    desc: Lint, type check, tests, build
+    cmds:
+      - task: lint
+      - task: check
+      - task: test
+      - task: build
