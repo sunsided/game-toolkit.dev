@@ -119,7 +119,7 @@ export const PROJECTS: Project[] = [
 			'Implement `init`, `update` and `render`, and ship. A batched 2D painter (sprites, shapes, text, tilemaps, optional vello vectors) and instanced, depth-tested 3D meshes draw into the same frame, so a 3D scene gets a 2D HUD for free. Native and the browser from the same code.',
 		accent: '#c6f24e',
 		repo: GT,
-		pin: { tag: 'v0.11.2', commit: '2657b149a50bf2816fd05161e2f5033344d5f94a' },
+		pin: { tag: 'v0.11.3', commit: '2d2be5bc08894695ce48f726677987760446c874' },
 		license: 'EUPL-1.2',
 		install: 'game-toolkit = "0.11"',
 		example: `use game_toolkit::prelude::*;
@@ -361,12 +361,13 @@ fn main() -> anyhow::Result<()> {
 		crate: 'game-toolkit-dosaudio',
 		name: 'dosaudio',
 		role: 'addon',
-		status: 'in-development',
+		status: 'released',
 		tagline: 'DOS-era PC sound devices on a shared hardware timeline.',
 		summary:
 			'PC speaker, AdLib OPL2, dual OPL2 and OPL3 behind their real I/O ports, sharing one hardware clock with dosvideo. Interchangeable OPL cores, IMF and DRO playback, register capture and deterministic WAV rendering. The audio thread synthesizes without allocating or locking.',
 		accent: '#ffd23f',
 		repo: 'sunsided/game-toolkit-dosaudio',
+		pin: { tag: 'v0.1.1', commit: 'a7a9ac84986aeebc6960ee46f24227b2c370d0c7' },
 		license: 'EUPL-1.2 OR MIT OR Apache-2.0',
 		install: 'game-toolkit-dosaudio = "0.1"',
 		example: `use game_toolkit_dosaudio::prelude::*;
@@ -396,7 +397,7 @@ std::fs::write("beep.wav", machine.finish().to_bytes()?)?;`,
 				text: 'Render to WAV without an audio device, sample for sample the same as live playback.'
 			}
 		],
-		published: false
+		published: true
 	}
 ];
 
