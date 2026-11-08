@@ -17,6 +17,10 @@ updates:
     # Let a release age a week before adopting it (yanked or compromised versions).
     cooldown:
       default-days: 7
+    ignore:
+      # TypeScript 7 does not work with SvelteKit 3 yet.
+      - dependency-name: typescript
+        versions: ['>=7']
     groups:
       dependencies:
         patterns: ['*']
