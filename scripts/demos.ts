@@ -179,10 +179,11 @@ ${canvas}
 		parent.postMessage({ demo: ${JSON.stringify(d.slug)}, state: 'error', message }, '*');
 	};
 	// A panic after start surfaces as an uncaught error (the Rust message is in the console).
-	// winit throws one on purpose to leave its setup code; that one is not a failure.
+	// Not failures: winit throws one on purpose to leave its setup code, and the browser
+	// reports a ResizeObserver loop when the canvas resizes (fullscreen); the demo runs on.
 	const stopped = (e) => {
 		const message = String(e?.message ?? e?.reason?.message ?? e?.reason ?? 'unknown error');
-		if (message.includes('control flow')) return;
+		if (message.includes('control flow') || message.includes('ResizeObserver loop')) return;
 		fail('This demo stopped: ' + message);
 	};
 	addEventListener('error', stopped);
